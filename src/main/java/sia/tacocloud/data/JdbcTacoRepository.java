@@ -16,14 +16,13 @@ import java.util.Date;
 
 
 @Repository
-public class JdbcTacoRepository implements TacoRepository{
+public class JdbcTacoRepository{
     private JdbcTemplate jdbc;
 
     public JdbcTacoRepository(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
     }
 
-    @Override
     public Taco save(Taco taco) {
         long tacoId = saveTacoInfo(taco);
         taco.setId(tacoId);

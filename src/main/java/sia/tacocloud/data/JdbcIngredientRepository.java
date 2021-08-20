@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class JdbcIngredientRepository implements IngredientRepository{
+public class JdbcIngredientRepository{
     private JdbcTemplate jdbc;
 
     @Autowired
@@ -17,12 +17,10 @@ public class JdbcIngredientRepository implements IngredientRepository{
         this.jdbc = jdbc;
     }
 
-    @Override
     public Iterable<Ingredient> findAll() {
         return jdbc.query("select id, name, type from Ingredient", this::mapRowToIngredient);
     }
 
-    @Override
     public Ingredient findOne(String id) {
         return jdbc.queryForObject("select id, name, type from Ingredient where id=?",
                 this::mapRowToIngredient, id);
@@ -33,7 +31,6 @@ public class JdbcIngredientRepository implements IngredientRepository{
                 Ingredient.Type.valueOf(rs.getString("type")));
     }
 
-    @Override
     public Ingredient save(Ingredient ingredient) {
         jdbc.update("insert into Ingredient (id, name, type) values (?, ?, ?)",
                 ingredient.getId(), ingredient.getName(), ingredient.getType().toString());
